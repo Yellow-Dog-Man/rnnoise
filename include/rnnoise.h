@@ -116,4 +116,3 @@ RNNOISE_EXPORT void rnnoise_model_free(RNNModel *model);
 #endif
 #endif
 
-#endif
