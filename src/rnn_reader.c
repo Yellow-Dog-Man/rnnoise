@@ -42,6 +42,22 @@
 #define F_ACTIVATION_SIGMOID    1
 #define F_ACTIVATION_RELU       2
 
+/**
+ * Load a system file
+ */
+FILE *rnnoise_system_open_file(const char* filename, const char* mode)
+{
+    return fopen(filename, mode);
+}
+
+/**
+ * Free a system file
+ */
+int rnnoise_system_close_file(FILE *f)
+{
+    return fclose(f);
+}
+
 RNNModel *rnnoise_model_from_file(FILE *f)
 {
     int i, in;

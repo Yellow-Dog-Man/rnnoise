@@ -98,6 +98,16 @@ RNNOISE_EXPORT void rnnoise_destroy(DenoiseState *st);
 RNNOISE_EXPORT float rnnoise_process_frame(DenoiseState *st, float *out, const float *in);
 
 /**
+ * Load a system file
+ */
+RNNOISE_EXPORT FILE *rnnoise_system_open_file(const char* filename, const char* mode);
+
+/**
+ * Free a system file
+ */
+RNNOISE_EXPORT int rnnoise_system_close_file(FILE *f);
+
+/**
  * Load a model from a file
  *
  * It must be deallocated with rnnoise_model_free()
@@ -114,6 +124,4 @@ RNNOISE_EXPORT void rnnoise_model_free(RNNModel *model);
 #ifdef __cplusplus
 }
 #endif
-#endif
-
 #endif
