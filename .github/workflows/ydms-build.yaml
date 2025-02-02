@@ -1,0 +1,37 @@
+name: "YDMS Build"
+
+on: [push]
+
+jobs:
+  build-linux:
+    strategy:
+      matrix:
+        osver: [ubuntu-latest, ubuntu-24.04-arm]
+
+    runs-on: ${{ matrix.osver }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set dist name
+        run: |
+          if ${{ matrix.osver == 'ubuntu-24.04-arm' }}; then
+            echo "distname=rnnoise-linux-arm" >> "$GITHUB_ENV"
+          else
+            echo "distname=rnnoise-linux" >> "$GITHUB_ENV"
+          fi
+      - name: Create build dirs
+        run: |
+          mkdir build
+          cd build
+          echo "builddir=$(pwd)" >> "$GITHUB_ENV"
+      - name: Build rnnoise Linux
+        working-directory: ${{ env.builddir }}
+        run: |
+          cmake -DCMAKE_BUILD_TYPE=Release ..
+          make -j4
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.distname }}
+          path: ${{ env.builddir }}/**/*.so
