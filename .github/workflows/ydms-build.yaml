@@ -35,3 +35,22 @@ jobs:
         with:
           name: ${{ env.distname }}
           path: ${{ env.builddir }}/**/*.so
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v2
+
+      - name: Build solution
+        run: |
+          cmake -B build -S .
+          cmake --build build --config Release
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: rnnoise-windows
+          path: build/**/*.dll
